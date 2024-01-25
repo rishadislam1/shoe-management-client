@@ -1,16 +1,47 @@
-import { Link } from "react-router-dom";
-import login from "../../assets/login/login.jpg";
+import { Link, useNavigate } from "react-router-dom";
+import loginImage from "../../assets/login/login.jpg";
+import { useLoginMutation } from "../../Redux/features/auth/authApiH";
+import Swal from "sweetalert2";
 
 const Login = () => {
+
+  const [login, {isLoading, data:loginData}] = useLoginMutation();
+  const navigate = useNavigate();
+
+  const handleSignin =(e)=>{
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    const data={
+      email: email,
+      password: password
+    }
+    login(data);
+    form.reset();
+  }
+
+  if(loginData?.status==='success' && !isLoading){
+    navigate('/home');
+  }
+  else if(loginData?.status === 'fail'){
+    Swal.fire({
+      icon: "warning",
+      title: "Oops...",
+      text: `${loginData.message}. Please try again`,
+    });
+  }
+
+
   return (
     <div className="flex flex-wrap md:justify-center xl:justify-start items-center gap-10">
       <div>
-        <img src={login} alt="login image" className="h-screen" />
+        <img src={loginImage} alt="login image" className="h-screen" />
       </div>
       <div className="flex flex-col justify-center items-center">
         <h1 className="text-center text-3xl font-bold">USER LOGIN</h1>
         {/* login form */}
-        <form className="mt-10">
+        <form className="mt-10" onSubmit={handleSignin}>
           <div>
             <label className="text-xl font-bold">Email</label> <br />
             <input
