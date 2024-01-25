@@ -1,12 +1,17 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import loginImage from "../../assets/login/login.jpg";
 import { useLoginMutation } from "../../Redux/features/auth/authApiH";
 import Swal from "sweetalert2";
+import useAuthCheck from "../../hooks/useAuthCheck";
 
 const Login = () => {
-
+  useAuthCheck();
   const [login, {isLoading, data:loginData}] = useLoginMutation();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location?.state?.from?.pathname;
+
 
   const handleSignin =(e)=>{
     e.preventDefault();
@@ -21,7 +26,11 @@ const Login = () => {
     form.reset();
   }
 
-  if(loginData?.status==='success' && !isLoading){
+
+  if(loginData?.accessToken && loginData?.status==='success' && from){
+    navigate(from,{replace: true})
+  }
+  else if(loginData?.status==='success' && !isLoading){
     navigate('/home');
   }
   else if(loginData?.status === 'fail'){

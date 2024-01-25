@@ -4,19 +4,21 @@ import Login from "../Pages/Registration/Login";
 import Home from "../Pages/Home/Home.jsx";
 import NotFound from "../Pages/NotFound.js";
 import Signup from "../Pages/Registration/Signup.js";
+import PublicRoute from "./PublicRoute.tsx";
+import PrivateRoute from "./PrivateRoute.tsx";
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Login/>
+        element: <PublicRoute><Login/></PublicRoute>
     },
     {
         path: '/signup',
-        element: <Signup/>
+        element: <PublicRoute><Signup/></PublicRoute>
     },
     {
         path: '/home',
-        element: <MainLayout/>,
+        element: <PrivateRoute><MainLayout/></PrivateRoute>,
         children:[
             {
                 path: '/home',

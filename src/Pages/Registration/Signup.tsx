@@ -2,9 +2,10 @@ import { Link, useNavigate } from "react-router-dom";
 import login from "../../assets/login/login.jpg";
 import Swal from "sweetalert2";
 import { useRegisterMutation } from "../../Redux/features/auth/authApiH";
+import useAuthCheck from "../../hooks/useAuthCheck";
 
 const Signup = () => {
-
+  useAuthCheck();
   const [register,{isLoading, data:userData}] = useRegisterMutation();
   const navigate = useNavigate();
 
