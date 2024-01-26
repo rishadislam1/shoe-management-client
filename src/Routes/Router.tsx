@@ -6,6 +6,9 @@ import NotFound from "../Pages/NotFound.js";
 import Signup from "../Pages/Registration/Signup.js";
 import PublicRoute from "./PublicRoute.tsx";
 import PrivateRoute from "./PrivateRoute.tsx";
+import AddShoe from "../Pages/AddShoe/AddShoe.tsx";
+import Sales from "../Pages/Sales/Sales.tsx";
+import SalesHistory from "../Pages/SalesHistory/SalesHistory.tsx";
 
 const router = createBrowserRouter([
     {
@@ -24,6 +27,18 @@ const router = createBrowserRouter([
                 path: '/home',
                 element: <Home/>
             },
+            {
+                path: '/home/addshoe',
+                element: <AddShoe/>
+            },
+            {
+                path: '/home/sales',
+                element: <Sales/>
+            },
+            {
+                path: '/home/history',
+                element: <SalesHistory/>
+            }
           
         ]
     },

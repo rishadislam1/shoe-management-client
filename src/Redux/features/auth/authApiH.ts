@@ -20,24 +20,24 @@ export const authApiH = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          if(result?.data?.status === 'success'){
+          if (result?.data?.status === "success") {
             localStorage.setItem(
-                "auth",
-                JSON.stringify({
-                  accessToken: result.data.accessToken,
-                  user: result.data.newUser,
-                })
-              );
-    
-              dispatch(
-                userLoggedIn({
-                    accessToken: result.data.accessToken,
-                    user: result.data.user
-                })
-              );
+              "auth",
+              JSON.stringify({
+                accessToken: result.data.accessToken,
+                user: result.data.newUser,
+              })
+            );
+            setTimeout(() => {
+              localStorage.removeItem("auth");
+            }, 10 * 60 * 60 * 1000);
+            dispatch(
+              userLoggedIn({
+                accessToken: result.data.accessToken,
+                user: result.data.user,
+              })
+            );
           }
-
-         
         } catch (err) {
           // nothing
         }
