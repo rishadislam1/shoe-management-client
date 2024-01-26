@@ -10,7 +10,6 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({children}) => {
 
     const isLoggedIn = useAuth();
     const location = useLocation();
-console.log(isLoggedIn)
     if(isLoggedIn){
         return children;
     }
