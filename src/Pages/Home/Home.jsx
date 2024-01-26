@@ -2,11 +2,13 @@
 import { useState } from "react";
 import { useGetShoeQuery } from "../../Redux/features/shoe/shoeApi.ts";
 import './home.css';
+import { useAppSelector } from "../../Redux/hook.ts";
+import { Link } from "react-router-dom";
 
 const Home = () => {
 
-
-  const { data: shoeData, isLoading } = useGetShoeQuery();
+  const {user} = useAppSelector(state=>state.auth);
+  const { data: shoeData, isLoading } = useGetShoeQuery(user?.email);
 
   const [allCheck, setAllCheck] = useState(false);
 
@@ -42,6 +44,7 @@ const Home = () => {
             <th>Product Size</th>
             <th>Product Color</th>
             <th>Product Material</th>
+            <th>Update</th>
           </tr>
         </thead>
         <tbody>
@@ -66,6 +69,7 @@ const Home = () => {
               <td>{shoe.size}</td>
               <td>{shoe.color}</td>
               <td>{shoe.material}</td>
+              <td><Link to={`/home/update/${shoe._id}`} className="btn btn-sm">Update</Link></td>
             </tr>
           ))}
         </tbody>

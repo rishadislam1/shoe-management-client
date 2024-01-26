@@ -1,12 +1,19 @@
-import Swal from "sweetalert2";
-import { useAddShoeMutation } from "../../Redux/features/shoe/shoeApi.ts";
+import { useParams } from "react-router-dom";
 import { useAppSelector } from "../../Redux/hook";
+import { useGetSingleShoeQuery, useUpdateShoeMutation } from "../../Redux/features/shoe/shoeApi.ts";
+import Swal from "sweetalert2";
 
-const AddShoe = () => {
+const UpdateShoe = () => {
+  const { id } = useParams();
 
-    const {user} = useAppSelector(state=>state.auth);
+  const { user } = useAppSelector((state) => state.auth);
 
-    const [addShoe,{data:addShoeData, isLoading}] = useAddShoeMutation();
+  const email = user?.email;
+
+  const {data:shoeData} = useGetSingleShoeQuery({email,id});
+
+  const [updateShoe, {data:updateShoeData, isLoading}]= useUpdateShoeMutation();
+
 
   const handleShoeSubmit = (e) => {
     e.preventDefault();
@@ -33,19 +40,19 @@ const AddShoe = () => {
       size,
       color,
       material,
-      email: user?.email
+      email: user?.email,
     };
 
-    addShoe(data);
+    updateShoe({data,id});
     form.reset();
   };
-
-  if(addShoeData && !isLoading){
+  
+  if (updateShoeData && !isLoading) {
     Swal.fire({
-        title: "Thanks",
-        text: `${addShoeData?.message}`,
-        icon: "success"
-      });
+      title: "Thanks",
+      text: `Update Show Successfully`,
+      icon: "success",
+    });
   }
   return (
     <div className="w-full flex flex-col justify-center items-center">
@@ -62,6 +69,7 @@ const AddShoe = () => {
             <label>Product Name</label>
             <br />
             <input
+            defaultValue={shoeData?.productName}
               type="text"
               name="name"
               id="name"
@@ -74,6 +82,7 @@ const AddShoe = () => {
             <label>Product Price</label>
             <br />
             <input
+            defaultValue={shoeData?.productPrice}
               type="number"
               name="price"
               id="price"
@@ -91,6 +100,7 @@ const AddShoe = () => {
             <label>Product Quantity</label>
             <br />
             <input
+            defaultValue={shoeData?.productQuantity}
               type="number"
               name="quantity"
               placeholder="enter product Quantity"
@@ -102,6 +112,7 @@ const AddShoe = () => {
             <label>Release Date</label>
             <br />
             <input
+            defaultValue={shoeData?.releaseDate}
               type="date"
               name="releaseDate"
               id=""
@@ -118,6 +129,7 @@ const AddShoe = () => {
             <label>Product Brand</label>
             <br />
             <input
+            defaultValue={shoeData?.brand}
               type="text"
               name="brand"
               placeholder="enter product brand"
@@ -129,6 +141,7 @@ const AddShoe = () => {
             <label>Product Model</label>
             <br />
             <input
+            defaultValue={shoeData?.model}
               type="text"
               name="model"
               placeholder="enter product Model"
@@ -145,6 +158,7 @@ const AddShoe = () => {
             <label>Product Style</label>
             <br />
             <input
+            defaultValue={shoeData?.style}
               type="text"
               name="style"
               placeholder="enter product style"
@@ -156,6 +170,7 @@ const AddShoe = () => {
             <label>Product Size</label>
             <br />
             <input
+            defaultValue={shoeData?.size}
               type="text"
               name="size"
               placeholder="enter product size"
@@ -172,6 +187,7 @@ const AddShoe = () => {
             <label>Product Color</label>
             <br />
             <input
+            defaultValue={shoeData?.color}
               type="text"
               name="color"
               placeholder="enter product color"
@@ -183,6 +199,7 @@ const AddShoe = () => {
             <label>Product Material</label>
             <br />
             <input
+            defaultValue={shoeData?.material}
               type="text"
               name="material"
               placeholder="enter product material"
@@ -194,10 +211,10 @@ const AddShoe = () => {
 
         {/* submit button */}
 
-        <button className="btn w-full mt-8 btn-accent">Add Product</button>
+        <button className="btn w-full mt-8 btn-accent">Update Product</button>
       </form>
     </div>
   );
 };
 
-export default AddShoe;
+export default UpdateShoe;

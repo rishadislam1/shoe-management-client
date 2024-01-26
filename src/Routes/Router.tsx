@@ -9,6 +9,7 @@ import PrivateRoute from "./PrivateRoute.tsx";
 import AddShoe from "../Pages/AddShoe/AddShoe.tsx";
 import Sales from "../Pages/Sales/Sales.tsx";
 import SalesHistory from "../Pages/SalesHistory/SalesHistory.tsx";
+import UpdateShoe from "../Pages/UpdateShoe/UpdateShoe.tsx";
 
 const router = createBrowserRouter([
     {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
             {
                 path: '/home/history',
                 element: <SalesHistory/>
+            },
+            {
+                path: '/home/update/:id',
+                element: <UpdateShoe/>
             }
           
         ]
