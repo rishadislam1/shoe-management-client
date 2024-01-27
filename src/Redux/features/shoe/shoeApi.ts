@@ -31,9 +31,17 @@ export const shoeApi = apiSlice.injectEndpoints({
                 url: '/deleteshoe',
                 method: 'DELETE',
                 body: ids
-            })
+            }),
+            invalidatesTags: ['shoeData']
+        }),
+        deleteAllShoe: builder.mutation({
+            query: ()=>({
+                url: '/deleteall',
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['shoeData']
         })
     })
 })
 
-export const {useGetShoeQuery, useAddShoeMutation, useGetSingleShoeQuery, useUpdateShoeMutation, useDeleteShoeMutation} = shoeApi;
+export const {useGetShoeQuery, useAddShoeMutation, useGetSingleShoeQuery, useUpdateShoeMutation, useDeleteShoeMutation, useDeleteAllShoeMutation} = shoeApi;

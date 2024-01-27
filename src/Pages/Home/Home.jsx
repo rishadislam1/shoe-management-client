@@ -1,13 +1,16 @@
 import { useState } from "react";
-import { useDeleteShoeMutation, useGetShoeQuery } from "../../Redux/features/shoe/shoeApi.ts";
+import { useDeleteAllShoeMutation, useDeleteShoeMutation, useGetShoeQuery } from "../../Redux/features/shoe/shoeApi.ts";
 import "./home.css";
 import { useAppSelector } from "../../Redux/hook.ts";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Home = () => {
   const { user } = useAppSelector((state) => state.auth);
   const { data: shoeData, isLoading } = useGetShoeQuery(user?.email);
   const [deleteShoe,{isLoading:deleteLoading, data:deleteShoeData}] = useDeleteShoeMutation();
+  const [deleteAllShoe,{isLoading:deleteAllLoading, data:deleteAllData}] = useDeleteAllShoeMutation();
+
 
   const [allCheck, setAllCheck] = useState(false);
   const [isChecked, setIsChecked] = useState([]);
@@ -27,12 +30,42 @@ const Home = () => {
   };
 
   const handleDelete = ()=>{
-    deleteShoe({ids: isChecked});
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if(allCheck === true){
+          deleteAllShoe();
+        }
+        else{
+          deleteShoe({ids: isChecked});
+        }
+        
+       
+      }
+    });
+    
 
   }
-
-  if(!deleteLoading && deleteShoeData?.status===true){
-    console.log(deleteShoeData.message);
+  if(!deleteLoading && deleteShoeData?.success===true && !allCheck){
+    Swal.fire({
+      title: "Deleted!",
+      text: "Your file has been deleted.",
+      icon: "success"
+    });
+  }
+  else if(!deleteAllLoading && deleteAllData?.success===true && isChecked.length===0){
+    Swal.fire({
+      title: "Deleted!",
+      text: "All File Deleted",
+      icon: "success"
+    });
   }
 
   if (isLoading) {
