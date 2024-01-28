@@ -19,7 +19,7 @@ const MainLayout = () => {
     <div>
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content flex flex-col items-start justify-start">
+        <div className="drawer-content ">
        
 
           <label
