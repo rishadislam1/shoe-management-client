@@ -4,7 +4,7 @@ import { useLoginMutation } from "../../Redux/features/auth/authApiH";
 import loginImage from "../../assets/login/login.jpg";
 import useAuthCheck from "../../hooks/useAuthCheck";
 
-const Login = () => {
+const Login: React.FC = () => {
   useAuthCheck();
   const [login, { isLoading, data: loginData }] = useLoginMutation();
   const navigate = useNavigate();
@@ -12,17 +12,18 @@ const Login = () => {
 
   const from = location?.state?.from?.pathname;
 
-  const handleSignin = (e: Event) => {
+  const handleSignin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const email = e.target.email.value;
-    const password = e.target.password.value;
+    const formElement = e.currentTarget as HTMLFormElement;
+    const email = e.currentTarget.email.value;
+    const password = e.currentTarget.password.value;
     const data = {
       email: email,
       password: password,
     };
+  
     login(data);
-    e.target.reset();
+    formElement.reset();
   };
 
   if (loginData?.accessToken && loginData?.status === "success" && from) {

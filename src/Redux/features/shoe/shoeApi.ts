@@ -35,8 +35,8 @@ export const shoeApi = apiSlice.injectEndpoints({
             invalidatesTags: ['shoeData']
         }),
         deleteAllShoe: builder.mutation({
-            query: ()=>({
-                url: '/deleteall',
+            query: (email)=>({
+                url: `/deleteall/${email}`,
                 method: 'DELETE',
             }),
             invalidatesTags: ['shoeData']

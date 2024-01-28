@@ -5,18 +5,27 @@ import "react-date-range/dist/theme/default.css";
 import { useGetSalesQuery } from "../../Redux/features/sales/salesApi.ts";
 import { format, startOfYear } from 'date-fns';
 
-const YearlySales = () => {
+
+interface Shoe {
+  productName: string;
+  sellQuantity: number;
+  buyerName: string;
+  saleDate: string;
+}
+
+
+const YearlySales: React.FC = () => {
   const { user } = useAppSelector((state) => state.auth);
   const { data: shoeData, isLoading } = useGetSalesQuery(user?.email);
 
-  const [selectFilters, setSelectFilters] = useState([]);
+  const [selectFilters, setSelectFilters] = useState<Shoe[]>([]);
 
   useEffect(() => {
     // Sort the shoeData based on saleDate before setting selectFilters
-    const sortedData = shoeData.slice().sort((a, b) => {
+    const sortedData = (shoeData || []).slice().sort((a: Shoe, b: Shoe) => {
       const dateA = new Date(a.saleDate);
       const dateB = new Date(b.saleDate);
-      return dateA - dateB;
+      return Number(dateA) - Number(dateB);
     });
 
     setSelectFilters(sortedData);
@@ -24,7 +33,7 @@ const YearlySales = () => {
 
   // sales data by year
   const groupByYear = () => {
-    const groupedData = {};
+    const groupedData: { [key: string]: Shoe[] } = {};
 
     selectFilters?.forEach((shoe) => {
       const saleDate = new Date(shoe.saleDate);

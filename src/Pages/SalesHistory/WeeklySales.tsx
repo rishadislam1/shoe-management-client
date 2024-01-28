@@ -5,16 +5,27 @@ import "react-date-range/dist/theme/default.css";
 import { useGetSalesQuery } from "../../Redux/features/sales/salesApi.ts";
 import { format, startOfWeek, endOfWeek } from 'date-fns';
 
+interface Shoe {
+  productName: string;
+  sellQuantity: number;
+  buyerName: string;
+  saleDate: string;
+}
 
-const WeeklySales = () => {
+const WeeklySales: React.FC = () => {
   const { user } = useAppSelector((state) => state.auth);
   const { data: shoeData, isLoading } = useGetSalesQuery(user?.email);
   // product search start
 
-  const [selectFilters, setSelectFilters] = useState([]);
+  const [selectFilters, setSelectFilters] = useState<Shoe[]>([]);
 
   useEffect(() => {
-    setSelectFilters(shoeData);
+    const sortedData = (shoeData || []).slice().sort((a: Shoe, b: Shoe) => {
+      const dateA = new Date(a.saleDate);
+      const dateB = new Date(b.saleDate);
+      return Number(dateA) - Number(dateB);
+    });
+    setSelectFilters(sortedData);
   }, [shoeData]);
 
 
@@ -23,9 +34,9 @@ const WeeklySales = () => {
 
    // sales data by week
    const groupByWeek = () => {
-    const groupedData = {};
+    const groupedData: { [key: string]: Shoe[] } = {};
     
-    selectFilters?.forEach((shoe) => {
+    selectFilters?.forEach((shoe:Shoe) => {
       const saleDate = new Date(shoe.saleDate);
       const weekStart = startOfWeek(saleDate);
       const weekEnd = endOfWeek(saleDate);

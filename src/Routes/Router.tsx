@@ -10,7 +10,7 @@ import AddShoe from "../Pages/AddShoe/AddShoe.tsx";
 import Sales from "../Pages/Sales/Sales.tsx";
 import SalesHistory from "../Pages/SalesHistory/SalesHistory.tsx";
 import UpdateShoe from "../Pages/UpdateShoe/UpdateShoe.tsx";
-import WeeklySales from "../Pages/SalesHistory/weeklysales.tsx";
+import WeeklySales from "../Pages/SalesHistory/WeeklySales.tsx";
 import DailySales from "../Pages/SalesHistory/DailySales.tsx";
 import YearlySales from "../Pages/SalesHistory/YearlySales.tsx";
 import MonthlySales from "../Pages/SalesHistory/MonthlySales.tsx";

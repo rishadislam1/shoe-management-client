@@ -5,7 +5,7 @@ interface IUser {
     user: {
         name: string,
         email: string
-    }
+    } | undefined
 }
 
 const initialState:IUser = {

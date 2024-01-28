@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import Swal from "sweetalert2";
@@ -6,23 +6,37 @@ import { usePostSalesMutation } from "../../Redux/features/sales/salesApi.ts";
 import { useGetShoeQuery } from "../../Redux/features/shoe/shoeApi.ts";
 import { useAppSelector } from "../../Redux/hook.ts";
 
-const Sales = () => {
+interface Shoe {
+  _id: string;
+  productName: string;
+  productPrice: string;
+  productQuantity: string;
+  releaseDate: string;
+  brand: string;
+  model: string;
+  style: string;
+  size: string;
+  color: string;
+  material: string;
+}
+
+const Sales: React.FC = () => {
   const { user } = useAppSelector((state) => state.auth);
   const { data: shoeData, isLoading } = useGetShoeQuery(user?.email);
   const userEmail = user?.email;
   // product search start
 
-  const [selectFilters, setSelectFilters] = useState([]);
+  const [selectFilters, setSelectFilters] = useState<Shoe[]>([]);
   const [salesData, setSalesData] = useState(false);
 
   useEffect(() => {
-    setSelectFilters(shoeData);
+    setSelectFilters(shoeData || []);
   }, [shoeData]);
 
-  const handleSearch = (e: Event) => {
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value;
     setSelectFilters(
-      shoeData.filter((it) => {
+      shoeData.filter((it: Shoe) => {
         return (
           (it.brand && it.brand.toLowerCase().includes(searchTerm)) ||
           (it.productName &&
@@ -44,15 +58,19 @@ const Sales = () => {
   const [postSales, { isLoading: isSalesLoading, data: salespostData }] =
     usePostSalesMutation();
 
-  const handleSaleSubmit = (e, shoe) => {
+  const handleSaleSubmit = (
+    e: React.FormEvent<HTMLFormElement>,
+    shoe: Shoe
+  ) => {
     e.preventDefault();
-
-    const sellQuantity = e.target.sellQuantity.value;
-    const buyerName = e.target.buyerName.value;
-    const saleDate = e.target.saleDate.value;
+    const formData = new FormData(e.target as HTMLFormElement);
+    const sellQuantity = formData.get("sellQuantity") as string;
+    const buyerName = formData.get("buyerName") as string;
+    const saleDate = formData.get("saleDate") as string;
     const productName = shoe.productName;
     const productId = shoe._id;
-    const avaiableQuantity = shoe.productQuantity - sellQuantity;
+    const avaiableQuantity =
+      Number(shoe.productQuantity) - Number(sellQuantity);
 
     const data = {
       sellQuantity,
@@ -142,9 +160,12 @@ const Sales = () => {
                   {/* Open the modal using document.getElementById('ID').showModal() method */}
                   <button
                     className="btn"
-                    onClick={() =>
-                      document.getElementById("my_modal_1").showModal()
-                    }
+                    onClick={() => {
+                      const modalElement = document.getElementById(
+                        "my_modal_1"
+                      ) as HTMLDialogElement | null;
+                      modalElement?.showModal();
+                    }}
                   >
                     Sell
                   </button>
@@ -162,8 +183,8 @@ const Sales = () => {
                           className="input input-bordered "
                           onChange={(e) => {
                             if (
-                              e.target.value > shoe.productQuantity ||
-                              e.target.value < 1
+                              Number(e.target.value) > Number(shoe.productQuantity) ||
+                              Number(e.target.value) < 1
                             ) {
                               setSalesData(true);
                             } else {

@@ -9,13 +9,15 @@ const Signup = () => {
   const [register, { isLoading, data: userData }] = useRegisterMutation();
   const navigate = useNavigate();
 
-  const handleSignup = (e: Event) => {
+  const handleSignup = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
 
-    const name = e.target.name.value;
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-    const confirmPassword = e.target.confirmPassword.value;
+    
+    const name = formData.get("name") as string
+    const email = formData.get("email") as string
+    const password = formData.get("password") as string;
+    const confirmPassword = formData.get("confirmPassword") as string;
 
     if (password !== confirmPassword) {
       Swal.fire({
@@ -31,7 +33,7 @@ const Signup = () => {
         password,
       };
       register(data);
-      e.target.reset();
+      e.currentTarget.reset();
     }
   };
 

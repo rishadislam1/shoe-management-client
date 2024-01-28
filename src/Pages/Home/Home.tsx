@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { DateRangePicker } from "react-date-range";
+import { useEffect, useState, ChangeEvent } from "react";
+import { DateRangePicker, Range  } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { Link } from "react-router-dom";
@@ -12,7 +12,22 @@ import {
 import { useAppSelector } from "../../Redux/hook.ts";
 import "./home.css";
 
-const Home = () => {
+interface Shoe {
+  _id: string;
+  productName: string;
+  productPrice: string;
+  productQuantity: string;
+  releaseDate: string;
+  brand: string;
+  model: string;
+  style: string;
+  size: string;
+  color: string;
+  material: string;
+  isChecked?: boolean;
+}
+
+const Home: React.FC = () => {
   const { user } = useAppSelector((state) => state.auth);
   const { data: shoeData, isLoading } = useGetShoeQuery(user?.email);
   const [deleteShoe, { isLoading: deleteLoading, data: deleteShoeData }] =
@@ -22,20 +37,20 @@ const Home = () => {
 
   // product checked
   const [allCheck, setAllCheck] = useState(false);
-  const [isChecked, setIsChecked] = useState([]);
+  const [isChecked, setIsChecked] = useState<string[]>([]);
 
   const handleAllCheck = () => {
     setIsChecked([]);
     setAllCheck(!allCheck);
   };
 
-  const handleCheckedbox = (e: Event) => {
+  const handleCheckedbox = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
-    if (checked) {
-      setIsChecked([...isChecked, value]);
-    } else {
-      setIsChecked(isChecked.filter((e) => e !== value));
-    }
+     if (checked) {
+    setIsChecked((prevChecked) => [...prevChecked, value]);
+  } else {
+    setIsChecked((prevChecked) => prevChecked.filter((id) => id !== value));
+  }
   };
   // product delete
   const handleDelete = () => {
@@ -50,7 +65,7 @@ const Home = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         if (allCheck === true) {
-          deleteAllShoe();
+          deleteAllShoe(user?.email);
         } else {
           deleteShoe({ ids: isChecked });
         }
@@ -79,7 +94,7 @@ const Home = () => {
   // product delete end
 
   // product filter start
-  const maxPrice = shoeData?.reduce((max, shoe) => {
+  const maxPrice = shoeData?.reduce((max: number, shoe: Shoe) => {
     const productPrice = parseFloat(shoe.productPrice);
     return isNaN(productPrice) ? max : Math.max(max, productPrice);
   }, 0);
@@ -97,32 +112,27 @@ const Home = () => {
     setPriceSelect(maxPrice);
   }, [shoeData, maxPrice]);
 
-  const handleFilterButton = (value, item) => {
-    if (selectFilters.length === 0) {
-      console.log("Product Not Found");
-      setSelectFilters(shoeData);
-    } else if (selectFilters.length !== 0) {
-      if (item === "brand") {
-        setBrandSelect(value);
-      }
-      if (item === "model") {
-        setModelSelect(value);
-      }
-      if (item === "style") {
-        setStyleSelect(value);
-      }
-      if (item === "size") {
-        setSizeSelect(value);
-      }
-      if (item === "color") {
-        setColorSelect(value);
-      }
+  const handleFilterButton = (value: string, item: string) => {
+    if (item === "brand") {
+      setBrandSelect(value);
+    }
+    if (item === "model") {
+      setModelSelect(value);
+    }
+    if (item === "style") {
+      setStyleSelect(value);
+    }
+    if (item === "size") {
+      setSizeSelect(value);
+    }
+    if (item === "color") {
+      setColorSelect(value);
     }
   };
 
   const handleSearch = () => {
     setSelectFilters(
-      shoeData.filter((it) => {
+      shoeData.filter((it: Shoe) => {
         return (
           it.brand === brandSelect ||
           it.model === modelSelect ||
@@ -135,18 +145,18 @@ const Home = () => {
     );
   };
 
-  const handlePrice = (e) => {
+  const handlePrice = (e: ChangeEvent<HTMLInputElement>) => {
     setPriceSelect(e.target.value);
     setSelectFilters(
-      shoeData.filter((it) => {
+      shoeData.filter((it: Shoe) => {
         return it.productPrice <= e.target.value;
       })
     );
   };
   // date
 
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [endDate, setEndDate] = useState<Date>(new Date());
 
   const selectionRange = {
     startDate: startDate,
@@ -154,16 +164,17 @@ const Home = () => {
     key: "selection",
   };
 
-  const handleSelect = (date) => {
-    const filterd = shoeData.filter((shoe) => {
-      const shoeData1 = new Date(shoe["releaseDate"]);
+  const handleSelect = (ranges: { selection: { startDate: Date; endDate: Date } }): void => {
+    const { selection } = ranges;
+    const filterd = (shoeData || []).filter((shoe:Shoe) => {
+      const shoeData1 = new Date(shoe.releaseDate);
       return (
-        shoeData1 >= date.selection.startDate &&
-        shoeData1 <= date.selection.endDate
+        shoeData1 >= selection.startDate &&
+        shoeData1 <= selection.endDate
       );
     });
-    setStartDate(date.selection.startDate);
-    setEndDate(date.selection.endDate);
+    setStartDate(selection.startDate);
+    setEndDate(selection.endDate);
     setSelectFilters(filterd);
   };
 
@@ -185,14 +196,14 @@ const Home = () => {
               className="select select-bordered w-full max-w-xs"
               defaultValue={`Select ${item}`}
             >
-              <option name="all" disabled>
+              <option value="all" disabled>
                 Select {item}
               </option>
               {item === "brand" && (
                 <>
                   {" "}
-                  {shoeData?.map((shoe) => (
-                    <option key={shoe._id} name={shoe.brand}>
+                  {shoeData?.map((shoe:Shoe) => (
+                    <option key={shoe._id} value={shoe.brand}>
                       {shoe.brand}
                     </option>
                   ))}
@@ -201,8 +212,8 @@ const Home = () => {
               {item === "model" && (
                 <>
                   {" "}
-                  {shoeData?.map((shoe) => (
-                    <option key={shoe._id} name={shoe.model}>
+                  {shoeData?.map((shoe:Shoe) => (
+                    <option key={shoe._id} value={shoe.model}>
                       {shoe.model}
                     </option>
                   ))}
@@ -211,8 +222,8 @@ const Home = () => {
               {item === "style" && (
                 <>
                   {" "}
-                  {shoeData?.map((shoe) => (
-                    <option key={shoe._id} name={shoe.style}>
+                  {shoeData?.map((shoe:Shoe) => (
+                    <option key={shoe._id} value={shoe.style}>
                       {shoe.style}
                     </option>
                   ))}
@@ -221,8 +232,8 @@ const Home = () => {
               {item === "size" && (
                 <>
                   {" "}
-                  {shoeData?.map((shoe) => (
-                    <option key={shoe._id} name={shoe.size}>
+                  {shoeData?.map((shoe:Shoe) => (
+                    <option key={shoe._id} value={shoe.size}>
                       {shoe.size}
                     </option>
                   ))}
@@ -231,8 +242,8 @@ const Home = () => {
               {item === "color" && (
                 <>
                   {" "}
-                  {shoeData?.map((shoe) => (
-                    <option key={shoe._id} name={shoe.color}>
+                  {shoeData?.map((shoe:Shoe) => (
+                    <option key={shoe._id} value={shoe.color}>
                       {shoe.color}
                     </option>
                   ))}
@@ -279,7 +290,7 @@ const Home = () => {
           <div className="overflow-x-auto">
             <DateRangePicker
               ranges={[selectionRange]}
-              onChange={handleSelect}
+              onChange={handleSelect as (ranges: { [key: string]: Range }) => void}
             />
           </div>
         </div>
@@ -325,7 +336,7 @@ const Home = () => {
           <tbody>
             {/* row 1 */}
 
-            {selectFilters?.map((shoe, index) => (
+            {selectFilters?.map((shoe:Shoe, index:number) => (
               <tr key={shoe._id}>
                 <td>{index + 1}</td>
                 <td>

@@ -1,28 +1,38 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { useGetSalesQuery } from "../../Redux/features/sales/salesApi.ts";
 import { useAppSelector } from "../../Redux/hook.ts";
 
-const SalesHistory = () => {
+interface Shoe {
+  _id: string;
+  productName: string;
+  sellQuantity: number;
+  buyerName: string;
+  saleDate: string;
+}
+
+
+
+const SalesHistory: React.FC = () => {
   const { user } = useAppSelector((state) => state.auth);
   const { data: shoeData, isLoading } = useGetSalesQuery(user?.email);
   // product search start
 
-  const [selectFilters, setSelectFilters] = useState([]);
+  const [selectFilters, setSelectFilters] = useState<Shoe[]>([]);
 
   useEffect(() => {
     setSelectFilters(shoeData);
   }, [shoeData]);
 
-  const handleSearch = (e: Event) => {
-    const searchTerm = e.target.value;
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    const searchTerm = e.target.value.toLowerCase();
     setSelectFilters(
-      shoeData.filter((it) => {
+      shoeData.filter((it:Shoe) => {
         return (
           (it.productName &&
             it.productName.toLowerCase().includes(searchTerm)) ||
-          (it.sellQuantity && it.sellQuantity === searchTerm) ||
+          (it.sellQuantity && Number(it.sellQuantity) === Number(searchTerm)) ||
           (it.buyerName && it.buyerName.toLowerCase().includes(searchTerm)) ||
           (it.saleDate && it.saleDate.includes(searchTerm))
         );

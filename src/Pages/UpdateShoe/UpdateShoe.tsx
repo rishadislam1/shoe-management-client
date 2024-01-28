@@ -1,3 +1,5 @@
+import React from "react";
+
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
@@ -18,19 +20,19 @@ const UpdateShoe = () => {
   const [updateShoe, { data: updateShoeData, isLoading }] =
     useUpdateShoeMutation();
 
-  const handleShoeSubmit = (e: Event) => {
+  const handleShoeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const name = e.target.name.value;
-    const price = e.target.price.value;
-    const quantity = e.target.quantity.value;
-    const date = e.target.releaseDate.value;
-    const brand = e.target.brand.value;
-    const model = e.target.model.value;
-    const style = e.target.style.value;
-    const size = e.target.size.value;
-    const color = e.target.color.value;
-    const material = e.target.material.value;
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    const name = formData.get("name") as string;
+    const price = formData.get("price") as string;
+    const quantity = formData.get("quantity") as string;
+    const date = formData.get("releaseDate") as string;
+    const brand = formData.get("brand") as string;
+    const model = formData.get("model") as string;
+    const style = formData.get("style") as string;
+    const size = formData.get("size") as string;
+    const color = formData.get("color") as string;
+    const material = formData.get("material") as string;
 
     const data = {
       productName: name,
@@ -47,7 +49,7 @@ const UpdateShoe = () => {
     };
 
     updateShoe({ data, id });
-    e.target.reset();
+    e.currentTarget.reset();
   };
 
   if (updateShoeData && !isLoading) {

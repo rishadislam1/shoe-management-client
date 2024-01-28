@@ -16,7 +16,7 @@ export const authApiH = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-
+      // @ts-expect-error I use this file in another file
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
