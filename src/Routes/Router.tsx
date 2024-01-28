@@ -11,6 +11,9 @@ import Sales from "../Pages/Sales/Sales.tsx";
 import SalesHistory from "../Pages/SalesHistory/SalesHistory.tsx";
 import UpdateShoe from "../Pages/UpdateShoe/UpdateShoe.tsx";
 import WeeklySales from "../Pages/SalesHistory/weeklysales.tsx";
+import DailySales from "../Pages/SalesHistory/DailySales.tsx";
+import YearlySales from "../Pages/SalesHistory/YearlySales.tsx";
+import MonthlySales from "../Pages/SalesHistory/MonthlySales.tsx";
 
 const router = createBrowserRouter([
     {
@@ -48,6 +51,18 @@ const router = createBrowserRouter([
             {
                 path: '/home/weekly',
                 element: <WeeklySales/>
+            },
+            {
+                path: '/home/daily',
+                element: <DailySales/>
+            },
+            {
+                path: '/home/yearly',
+                element: <YearlySales/>
+            },
+            {
+                path: '/home/monthly',
+                element: <MonthlySales/>
             }
           
         ]

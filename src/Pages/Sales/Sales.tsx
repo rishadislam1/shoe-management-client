@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 const Sales = () => {
   const { user } = useAppSelector((state) => state.auth);
   const { data: shoeData, isLoading } = useGetShoeQuery(user?.email);
-  const useEmail = user?.email;
+  const userEmail = user?.email;
   // product search start
 
   const [selectFilters, setSelectFilters] = useState([]);
@@ -61,7 +61,7 @@ const Sales = () => {
       productName,
       productId,
       avaiableQuantity,
-      useEmail,
+      userEmail,
     };
     postSales(data);
   };

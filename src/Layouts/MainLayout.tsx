@@ -89,13 +89,16 @@ const MainLayout = () => {
                   <Link to="/home/history">All Sales</Link>
                 </li>
                 <li className="text-blue-500">
+                  <Link to="/home/daily">Daily Sales</Link>
+                </li>
+                <li className="text-blue-500">
                   <Link to="/home/weekly">Weekly Sales</Link>
                 </li>
                 <li className="text-blue-500">
-                  <Link to="/home/addshoe">Daily Sales</Link>
+                  <Link to="/home/monthly">Monthly Sales</Link>
                 </li>
                 <li className="text-blue-500">
-                  <Link to="/home/addshoe">Yearly Sales</Link>
+                  <Link to="/home/yearly">Yearly Sales</Link>
                 </li>
               </ul>
             </li>
