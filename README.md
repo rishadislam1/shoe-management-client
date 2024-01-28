@@ -1,7 +1,7 @@
 
 # How to setup the application.
 
-```First of all you can see this github. From this github you can either copy the link from code and in your terminal just put git clone "your link", it will automatically copy to your local machine and you can see the code or you can download from here directly. 
+First of all you can see this github. From this github you can either copy the link from code and in your terminal just put git clone "your link", it will automatically copy to your local machine and you can see the code or you can download from here directly. 
 No matter what you choose. You can choose any of them. Now in your folder open your terminal and write the codes respectively,
 ```
   npm install node-modules
@@ -9,36 +9,30 @@ No matter what you choose. You can choose any of them. Now in your folder open y
 ```
 Then your code will automatically run and after clicking the url you can see the project view. (Make sure setup the server. You wil find full documentation there)
 
-```
 
 # How to use the application
 
 ## Login page:
-```
   On the application you first see a login page. If you are not registered with our service you can visit  to the signup page and signup to our system. After come back to login page you need to put the login details for login to your account.
-```
+
 ## Home Page
-```
+
 In home page you can see a sidebar menu from where you can travarse different pages. So, in the home page you will find whole data with some filtering options. If you don't have data go to add shoe page.
 So, in home page you will see all the data you insert in your account. Also you can filter by brand, model, style, size, color, price, date. You can see and find a data as you want. 
 Then each product has update option. By clicking on update you can  redirect to a update page where initially the previous data is loaded. Then you need to update the data if you want.
 Here you can also see some select option. When you select an option you can view the delete button. By clicking on delete you can delete the selected data, First of all delete should require your permission for deletion. Once you granted it will delete from the list. 
 You can  see all data in real time.
-```
-## Add Shoe Page
 
-```
+## Add Shoe Page
 In add shoe page you can add your product in here it is shoe. Here you can see a form which required a lot of multiple data. You should provide all the data and add shoe as you want.
-```
+
 
 ## Sales management Page
-```
 In sales management page you can manage your sells. First of all you will see all the data and a search option. In search option you can search a data as you want. Each data has sell button. By clicking on it you can show a popup update where you can add your sales options. By adding quantity you can see some deduction of quantity from main page.
-```
+
 ## Sales History
-```
+
 Here you can see 5 options. 
-```
 ### all Sales
 ```Here you can see all the saltes data available```
 
