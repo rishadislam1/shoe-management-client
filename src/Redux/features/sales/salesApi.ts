@@ -9,8 +9,11 @@ const salesApi = apiSlice.injectEndpoints({
                 body: data
             }),
             invalidatesTags: ['shoeData']
+        }),
+        getSales: builder.query({
+            query: (email)=> `/getsales/${email}`
         })
     })
 })
 
-export const {usePostSalesMutation} = salesApi;
+export const {usePostSalesMutation, useGetSalesQuery} = salesApi;
