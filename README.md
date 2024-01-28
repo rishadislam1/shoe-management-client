@@ -1,7 +1,7 @@
 
 # Project Details
  ## Project Name: Shoe Inventory Management System
- ## live Url: 
+ ## live Url: https://65b6d1102ddcf9ad78abc6de--storied-cannoli-c38d91.netlify.app/
  ## Technology: nodejs, expressjs, cors, mongoDB
 
 # How to setup the application.
