@@ -1,7 +1,10 @@
 import { useParams } from "react-router-dom";
-import { useAppSelector } from "../../Redux/hook";
-import { useGetSingleShoeQuery, useUpdateShoeMutation } from "../../Redux/features/shoe/shoeApi.ts";
 import Swal from "sweetalert2";
+import {
+  useGetSingleShoeQuery,
+  useUpdateShoeMutation,
+} from "../../Redux/features/shoe/shoeApi.ts";
+import { useAppSelector } from "../../Redux/hook";
 
 const UpdateShoe = () => {
   const { id } = useParams();
@@ -10,24 +13,24 @@ const UpdateShoe = () => {
 
   const email = user?.email;
 
-  const {data:shoeData} = useGetSingleShoeQuery({email,id});
+  const { data: shoeData } = useGetSingleShoeQuery({ email, id });
 
-  const [updateShoe, {data:updateShoeData, isLoading}]= useUpdateShoeMutation();
+  const [updateShoe, { data: updateShoeData, isLoading }] =
+    useUpdateShoeMutation();
 
-
-  const handleShoeSubmit = (e) => {
+  const handleShoeSubmit = (e: Event) => {
     e.preventDefault();
-    const form = e.target;
-    const name = form.name.value;
-    const price = form.price.value;
-    const quantity = form.quantity.value;
-    const date = form.releaseDate.value;
-    const brand = form.brand.value;
-    const model = form.model.value;
-    const style = form.style.value;
-    const size = form.size.value;
-    const color = form.color.value;
-    const material = form.material.value;
+
+    const name = e.target.name.value;
+    const price = e.target.price.value;
+    const quantity = e.target.quantity.value;
+    const date = e.target.releaseDate.value;
+    const brand = e.target.brand.value;
+    const model = e.target.model.value;
+    const style = e.target.style.value;
+    const size = e.target.size.value;
+    const color = e.target.color.value;
+    const material = e.target.material.value;
 
     const data = {
       productName: name,
@@ -43,10 +46,10 @@ const UpdateShoe = () => {
       email: user?.email,
     };
 
-    updateShoe({data,id});
-    form.reset();
+    updateShoe({ data, id });
+    e.target.reset();
   };
-  
+
   if (updateShoeData && !isLoading) {
     Swal.fire({
       title: "Thanks",
@@ -69,7 +72,7 @@ const UpdateShoe = () => {
             <label>Product Name</label>
             <br />
             <input
-            defaultValue={shoeData?.productName}
+              defaultValue={shoeData?.productName}
               type="text"
               name="name"
               id="name"
@@ -82,7 +85,7 @@ const UpdateShoe = () => {
             <label>Product Price</label>
             <br />
             <input
-            defaultValue={shoeData?.productPrice}
+              defaultValue={shoeData?.productPrice}
               type="number"
               name="price"
               id="price"
@@ -100,7 +103,7 @@ const UpdateShoe = () => {
             <label>Product Quantity</label>
             <br />
             <input
-            defaultValue={shoeData?.productQuantity}
+              defaultValue={shoeData?.productQuantity}
               type="number"
               name="quantity"
               placeholder="enter product Quantity"
@@ -112,7 +115,7 @@ const UpdateShoe = () => {
             <label>Release Date</label>
             <br />
             <input
-            defaultValue={shoeData?.releaseDate}
+              defaultValue={shoeData?.releaseDate}
               type="date"
               name="releaseDate"
               id=""
@@ -129,7 +132,7 @@ const UpdateShoe = () => {
             <label>Product Brand</label>
             <br />
             <input
-            defaultValue={shoeData?.brand}
+              defaultValue={shoeData?.brand}
               type="text"
               name="brand"
               placeholder="enter product brand"
@@ -141,7 +144,7 @@ const UpdateShoe = () => {
             <label>Product Model</label>
             <br />
             <input
-            defaultValue={shoeData?.model}
+              defaultValue={shoeData?.model}
               type="text"
               name="model"
               placeholder="enter product Model"
@@ -158,7 +161,7 @@ const UpdateShoe = () => {
             <label>Product Style</label>
             <br />
             <input
-            defaultValue={shoeData?.style}
+              defaultValue={shoeData?.style}
               type="text"
               name="style"
               placeholder="enter product style"
@@ -170,7 +173,7 @@ const UpdateShoe = () => {
             <label>Product Size</label>
             <br />
             <input
-            defaultValue={shoeData?.size}
+              defaultValue={shoeData?.size}
               type="text"
               name="size"
               placeholder="enter product size"
@@ -187,7 +190,7 @@ const UpdateShoe = () => {
             <label>Product Color</label>
             <br />
             <input
-            defaultValue={shoeData?.color}
+              defaultValue={shoeData?.color}
               type="text"
               name="color"
               placeholder="enter product color"
@@ -199,7 +202,7 @@ const UpdateShoe = () => {
             <label>Product Material</label>
             <br />
             <input
-            defaultValue={shoeData?.material}
+              defaultValue={shoeData?.material}
               type="text"
               name="material"
               placeholder="enter product material"

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { useAppSelector } from "../../Redux/hook.ts";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { useGetSalesQuery } from "../../Redux/features/sales/salesApi.ts";
-
+import { useAppSelector } from "../../Redux/hook.ts";
 
 const SalesHistory = () => {
   const { user } = useAppSelector((state) => state.auth);
@@ -16,7 +15,7 @@ const SalesHistory = () => {
     setSelectFilters(shoeData);
   }, [shoeData]);
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: Event) => {
     const searchTerm = e.target.value;
     setSelectFilters(
       shoeData.filter((it) => {
@@ -25,8 +24,7 @@ const SalesHistory = () => {
             it.productName.toLowerCase().includes(searchTerm)) ||
           (it.sellQuantity && it.sellQuantity === searchTerm) ||
           (it.buyerName && it.buyerName.toLowerCase().includes(searchTerm)) ||
-          (it.saleDate && it.saleDate.includes(searchTerm)) 
-        
+          (it.saleDate && it.saleDate.includes(searchTerm))
         );
       })
     );
@@ -70,7 +68,6 @@ const SalesHistory = () => {
               <th>Sell Quantity</th>
               <th>Buyer Name</th>
               <th>Sales Date</th>
-             
             </tr>
           </thead>
           <tbody>
@@ -84,8 +81,6 @@ const SalesHistory = () => {
                 <td>{shoe.sellQuantity}</td>
                 <td>{shoe.buyerName}</td>
                 <td>{shoe.saleDate}</td>
-                
-             
               </tr>
             ))}
           </tbody>

@@ -1,46 +1,41 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import loginImage from "../../assets/login/login.jpg";
-import { useLoginMutation } from "../../Redux/features/auth/authApiH";
 import Swal from "sweetalert2";
+import { useLoginMutation } from "../../Redux/features/auth/authApiH";
+import loginImage from "../../assets/login/login.jpg";
 import useAuthCheck from "../../hooks/useAuthCheck";
 
 const Login = () => {
   useAuthCheck();
-  const [login, {isLoading, data:loginData}] = useLoginMutation();
+  const [login, { isLoading, data: loginData }] = useLoginMutation();
   const navigate = useNavigate();
   const location = useLocation();
 
   const from = location?.state?.from?.pathname;
 
-
-  const handleSignin =(e)=>{
+  const handleSignin = (e: Event) => {
     e.preventDefault();
-    const form = e.target;
-    const email = form.email.value;
-    const password = form.password.value;
-    const data={
+
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const data = {
       email: email,
-      password: password
-    }
+      password: password,
+    };
     login(data);
-    form.reset();
-  }
+    e.target.reset();
+  };
 
-
-  if(loginData?.accessToken && loginData?.status==='success' && from){
-    navigate(from,{replace: true})
-  }
-  else if(loginData?.status==='success' && !isLoading){
-    navigate('/home');
-  }
-  else if(loginData?.status === 'fail'){
+  if (loginData?.accessToken && loginData?.status === "success" && from) {
+    navigate(from, { replace: true });
+  } else if (loginData?.status === "success" && !isLoading) {
+    navigate("/home");
+  } else if (loginData?.status === "fail") {
     Swal.fire({
       icon: "warning",
       title: "Oops...",
       text: `${loginData.message}. Please try again`,
     });
   }
-
 
   return (
     <div className="flex flex-wrap md:justify-center xl:justify-start items-center gap-10">
@@ -70,12 +65,17 @@ const Login = () => {
               className="input input-bordered w-full mt-5"
             />
           </div>
-            <button className="btn btn-primary w-full mt-10">SignIn</button>
+          <button className="btn btn-primary w-full mt-10">SignIn</button>
         </form>
 
         {/* do not account */}
         <div className="mt-14 font-bold">
-            <p>Don't Have An Account. <span className="text-blue-500 cursor-pointer"><Link to='/signup'>SignUp Here</Link></span></p>
+          <p>
+            Don't Have An Account.{" "}
+            <span className="text-blue-500 cursor-pointer">
+              <Link to="/signup">SignUp Here</Link>
+            </span>
+          </p>
         </div>
       </div>
     </div>

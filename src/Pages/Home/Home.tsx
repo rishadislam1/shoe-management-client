@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
+import { DateRangePicker } from "react-date-range";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 import {
   useDeleteAllShoeMutation,
   useDeleteShoeMutation,
   useGetShoeQuery,
 } from "../../Redux/features/shoe/shoeApi.ts";
-import "./home.css";
 import { useAppSelector } from "../../Redux/hook.ts";
-import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
-import "react-date-range/dist/styles.css";
-import "react-date-range/dist/theme/default.css";
-import { DateRangePicker } from "react-date-range";
+import "./home.css";
 
 const Home = () => {
   const { user } = useAppSelector((state) => state.auth);
@@ -29,7 +29,7 @@ const Home = () => {
     setAllCheck(!allCheck);
   };
 
-  const handleCheckedbox = (e) => {
+  const handleCheckedbox = (e: Event) => {
     const { value, checked } = e.target;
     if (checked) {
       setIsChecked([...isChecked, value]);
@@ -278,7 +278,6 @@ const Home = () => {
           </div>
           <div className="overflow-x-auto">
             <DateRangePicker
-         
               ranges={[selectionRange]}
               onChange={handleSelect}
             />
@@ -295,75 +294,75 @@ const Home = () => {
         Delete
       </button>
 
-   <div className="overflow-x-auto">
-   <table className="table ">
-        {/* head */}
-        <thead className="font-bold text-black">
-          <tr>
-            <th>#</th>
-            <th>
-              <label>
-                <input
-                  type="checkbox"
-                  className="checkbox"
-                  onClick={handleAllCheck}
-                />
-              </label>
-            </th>
-            <th>Product Name</th>
-            <th>Product Price</th>
-            <th>Product Quantity</th>
-            <th>Release Date</th>
-            <th>Product Brand</th>
-            <th>Product Model</th>
-            <th>Style</th>
-            <th>Product Size</th>
-            <th>Product Color</th>
-            <th>Product Material</th>
-            <th>Update</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* row 1 */}
-
-          {selectFilters?.map((shoe, index) => (
-            <tr key={shoe._id}>
-              <td>{index + 1}</td>
-              <td>
+      <div className="overflow-x-auto">
+        <table className="table ">
+          {/* head */}
+          <thead className="font-bold text-black">
+            <tr>
+              <th>#</th>
+              <th>
                 <label>
-                  {allCheck ? (
-                    <input type="checkbox" className="checkbox" checked />
-                  ) : (
-                    <input
-                      type="checkbox"
-                      className="checkbox"
-                      value={shoe._id}
-                      checked={shoe.isChecked}
-                      onChange={handleCheckedbox}
-                    />
-                  )}
+                  <input
+                    type="checkbox"
+                    className="checkbox"
+                    onClick={handleAllCheck}
+                  />
                 </label>
-              </td>
-              <td>{shoe.productName}</td>
-              <td>{shoe.productPrice}</td>
-              <td>{shoe.productQuantity}</td>
-              <td>{shoe.releaseDate}</td>
-              <td>{shoe.brand}</td>
-              <td>{shoe.model}</td>
-              <td>{shoe.style}</td>
-              <td>{shoe.size}</td>
-              <td>{shoe.color}</td>
-              <td>{shoe.material}</td>
-              <td>
-                <Link to={`/home/update/${shoe._id}`} className="btn btn-sm">
-                  Update
-                </Link>
-              </td>
+              </th>
+              <th>Product Name</th>
+              <th>Product Price</th>
+              <th>Product Quantity</th>
+              <th>Release Date</th>
+              <th>Product Brand</th>
+              <th>Product Model</th>
+              <th>Style</th>
+              <th>Product Size</th>
+              <th>Product Color</th>
+              <th>Product Material</th>
+              <th>Update</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-   </div>
+          </thead>
+          <tbody>
+            {/* row 1 */}
+
+            {selectFilters?.map((shoe, index) => (
+              <tr key={shoe._id}>
+                <td>{index + 1}</td>
+                <td>
+                  <label>
+                    {allCheck ? (
+                      <input type="checkbox" className="checkbox" checked />
+                    ) : (
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        value={shoe._id}
+                        checked={shoe.isChecked}
+                        onChange={handleCheckedbox}
+                      />
+                    )}
+                  </label>
+                </td>
+                <td>{shoe.productName}</td>
+                <td>{shoe.productPrice}</td>
+                <td>{shoe.productQuantity}</td>
+                <td>{shoe.releaseDate}</td>
+                <td>{shoe.brand}</td>
+                <td>{shoe.model}</td>
+                <td>{shoe.style}</td>
+                <td>{shoe.size}</td>
+                <td>{shoe.color}</td>
+                <td>{shoe.material}</td>
+                <td>
+                  <Link to={`/home/update/${shoe._id}`} className="btn btn-sm">
+                    Update
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

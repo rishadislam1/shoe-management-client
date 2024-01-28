@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useGetShoeQuery } from "../../Redux/features/shoe/shoeApi.ts";
-import { useAppSelector } from "../../Redux/hook.ts";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import { usePostSalesMutation } from "../../Redux/features/sales/salesApi.ts";
 import Swal from "sweetalert2";
+import { usePostSalesMutation } from "../../Redux/features/sales/salesApi.ts";
+import { useGetShoeQuery } from "../../Redux/features/shoe/shoeApi.ts";
+import { useAppSelector } from "../../Redux/hook.ts";
 
 const Sales = () => {
   const { user } = useAppSelector((state) => state.auth);
@@ -19,7 +19,7 @@ const Sales = () => {
     setSelectFilters(shoeData);
   }, [shoeData]);
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: Event) => {
     const searchTerm = e.target.value;
     setSelectFilters(
       shoeData.filter((it) => {
@@ -46,10 +46,10 @@ const Sales = () => {
 
   const handleSaleSubmit = (e, shoe) => {
     e.preventDefault();
-    const form = e.target;
-    const sellQuantity = form.sellQuantity.value;
-    const buyerName = form.buyerName.value;
-    const saleDate = form.saleDate.value;
+
+    const sellQuantity = e.target.sellQuantity.value;
+    const buyerName = e.target.buyerName.value;
+    const saleDate = e.target.saleDate.value;
     const productName = shoe.productName;
     const productId = shoe._id;
     const avaiableQuantity = shoe.productQuantity - sellQuantity;
@@ -68,10 +68,10 @@ const Sales = () => {
 
   if (!isSalesLoading && salespostData?.status === true) {
     Swal.fire({
-        title: "Congratulations",
-        text: "Your Product Sell Successfully",
-        icon: "success"
-      });
+      title: "Congratulations",
+      text: "Your Product Sell Successfully",
+      icon: "success",
+    });
   }
 
   //   loading state

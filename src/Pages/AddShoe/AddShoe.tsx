@@ -3,24 +3,22 @@ import { useAddShoeMutation } from "../../Redux/features/shoe/shoeApi.ts";
 import { useAppSelector } from "../../Redux/hook";
 
 const AddShoe = () => {
+  const { user } = useAppSelector((state) => state.auth);
 
-    const {user} = useAppSelector(state=>state.auth);
+  const [addShoe, { data: addShoeData, isLoading }] = useAddShoeMutation();
 
-    const [addShoe,{data:addShoeData, isLoading}] = useAddShoeMutation();
-
-  const handleShoeSubmit = (e) => {
+  const handleShoeSubmit = (e: Event) => {
     e.preventDefault();
-    const form = e.target;
-    const name = form.name.value;
-    const price = form.price.value;
-    const quantity = form.quantity.value;
-    const date = form.releaseDate.value;
-    const brand = form.brand.value;
-    const model = form.model.value;
-    const style = form.style.value;
-    const size = form.size.value;
-    const color = form.color.value;
-    const material = form.material.value;
+    const name = e.target.name.value;
+    const price = e.target.price.value;
+    const quantity = e.target.quantity.value;
+    const date = e.target.releaseDate.value;
+    const brand = e.target.brand.value;
+    const model = e.target.model.value;
+    const style = e.target.style.value;
+    const size = e.target.size.value;
+    const color = e.target.color.value;
+    const material = e.target.material.value;
 
     const data = {
       productName: name,
@@ -33,19 +31,19 @@ const AddShoe = () => {
       size,
       color,
       material,
-      email: user?.email
+      email: user?.email,
     };
 
     addShoe(data);
-    form.reset();
+    e.target.reset();
   };
 
-  if(addShoeData && !isLoading){
+  if (addShoeData && !isLoading) {
     Swal.fire({
-        title: "Thanks",
-        text: `${addShoeData?.message}`,
-        icon: "success"
-      });
+      title: "Thanks",
+      text: `${addShoeData?.message}`,
+      icon: "success",
+    });
   }
   return (
     <div className="w-full flex flex-col justify-center items-center">

@@ -1,49 +1,48 @@
 import { Link, useNavigate } from "react-router-dom";
-import login from "../../assets/login/login.jpg";
 import Swal from "sweetalert2";
 import { useRegisterMutation } from "../../Redux/features/auth/authApiH";
+import login from "../../assets/login/login.jpg";
 import useAuthCheck from "../../hooks/useAuthCheck";
 
 const Signup = () => {
   useAuthCheck();
-  const [register,{isLoading, data:userData}] = useRegisterMutation();
+  const [register, { isLoading, data: userData }] = useRegisterMutation();
   const navigate = useNavigate();
 
-  const handleSignup = (e)=>{
+  const handleSignup = (e: Event) => {
     e.preventDefault();
-    const form = e.target;
-    const name = form.name.value;
-    const email = form.email.value;
-    const password = form.password.value;
-    const confirmPassword = form.confirmPassword.value;
 
-    if(password !== confirmPassword){
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const confirmPassword = e.target.confirmPassword.value;
+
+    if (password !== confirmPassword) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: "Your Password and Confirm password does not match.",
-        footer: 'Please Try Again'
+        footer: "Please Try Again",
       });
-    } 
-    else{
+    } else {
       const data = {
         name,
         email,
-        password
-      }
+        password,
+      };
       register(data);
-      form.reset();
+      e.target.reset();
     }
-  }
+  };
 
-  if(userData?.status && !isLoading){
+  if (userData?.status && !isLoading) {
     Swal.fire({
       title: "CONGRATULATIONS",
       text: `${userData.message}. Please Login to Continue`,
-      icon: "success"
+      icon: "success",
     });
-    
-    navigate('/');
+
+    navigate("/");
   }
 
   return (
