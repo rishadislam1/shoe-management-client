@@ -21,17 +21,12 @@ const SalesHistory = () => {
     setSelectFilters(
       shoeData.filter((it) => {
         return (
-          (it.brand && it.brand.toLowerCase().includes(searchTerm)) ||
           (it.productName &&
             it.productName.toLowerCase().includes(searchTerm)) ||
-          (it.productPrice && it.productPrice === searchTerm) ||
-          (it.productQuantity && it.productQuantity === searchTerm) ||
-          (it.releaseDate && it.releaseDate.includes(searchTerm)) ||
-          (it.brand && it.brand.toLowerCase().includes(searchTerm)) ||
-          (it.model && it.model.toLowerCase().includes(searchTerm)) ||
-          (it.style && it.style.toLowerCase().includes(searchTerm)) ||
-          (it.size && it.size.toLowerCase().includes(searchTerm)) ||
-          (it.material && it.color.toLowerCase().includes(searchTerm))
+          (it.sellQuantity && it.sellQuantity === searchTerm) ||
+          (it.buyerName && it.buyerName.toLowerCase().includes(searchTerm)) ||
+          (it.saleDate && it.saleDate.includes(searchTerm)) 
+        
         );
       })
     );

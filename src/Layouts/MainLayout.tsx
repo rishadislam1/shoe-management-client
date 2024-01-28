@@ -8,6 +8,7 @@ import { userLoggedOut } from "../Redux/features/auth/authSlice";
 
 const MainLayout = () => {
   const [show, setShow] = useState(true);
+  const [showSales, setShowSales] = useState(true);
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
@@ -68,8 +69,35 @@ const MainLayout = () => {
 
             {/* sales history */}
 
-            <li className="mt-5">
-              <Link to="/home/history">Sales History</Link>
+      
+
+            <li className="mt-10">
+              <button onClick={() => setShowSales(!showSales)}>
+              Sales History
+                {showSales ? (
+                  <span>
+                    <TiArrowUpThick />
+                  </span>
+                ) : (
+                  <>
+                    <FaArrowDownAZ />
+                  </>
+                )}
+              </button>
+              <ul className={`my-2 ${showSales ? "hidden" : ""}`}>
+                <li className="my-3 text-blue-500">
+                  <Link to="/home/history">All Sales</Link>
+                </li>
+                <li className="text-blue-500">
+                  <Link to="/home/weekly">Weekly Sales</Link>
+                </li>
+                <li className="text-blue-500">
+                  <Link to="/home/addshoe">Daily Sales</Link>
+                </li>
+                <li className="text-blue-500">
+                  <Link to="/home/addshoe">Yearly Sales</Link>
+                </li>
+              </ul>
             </li>
 
             {/* logout */}

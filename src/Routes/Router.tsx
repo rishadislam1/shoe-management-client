@@ -10,6 +10,7 @@ import AddShoe from "../Pages/AddShoe/AddShoe.tsx";
 import Sales from "../Pages/Sales/Sales.tsx";
 import SalesHistory from "../Pages/SalesHistory/SalesHistory.tsx";
 import UpdateShoe from "../Pages/UpdateShoe/UpdateShoe.tsx";
+import WeeklySales from "../Pages/SalesHistory/weeklysales.tsx";
 
 const router = createBrowserRouter([
     {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
             {
                 path: '/home/update/:id',
                 element: <UpdateShoe/>
+            },
+            {
+                path: '/home/weekly',
+                element: <WeeklySales/>
             }
           
         ]
