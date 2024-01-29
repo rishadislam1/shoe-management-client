@@ -29,6 +29,7 @@ const Sales: React.FC = () => {
   const [selectFilters, setSelectFilters] = useState<Shoe[]>([]);
   const [modalState, setModalState] = useState('');
   const [salesData, setSalesData] = useState(false);
+  const [dataUpdate, setDataUpdate] = useState(false);
 
   useEffect(() => {
     setSelectFilters(shoeData || []);
@@ -83,14 +84,18 @@ const Sales: React.FC = () => {
       userEmail,
     };
     postSales(data);
+    setDataUpdate(true);
+    e.currentTarget.reset();
   };
 
-  if (!isSalesLoading && salespostData?.status === true) {
+  if (!isSalesLoading && salespostData?.status === true && dataUpdate) {
     Swal.fire({
       title: "Congratulations",
       text: "Your Product Sell Successfully",
       icon: "success",
     });
+    setDataUpdate(false);
+ 
   }
 
   //   loading state
