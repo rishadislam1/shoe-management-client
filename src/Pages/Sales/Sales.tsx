@@ -27,6 +27,7 @@ const Sales: React.FC = () => {
   // product search start
 
   const [selectFilters, setSelectFilters] = useState<Shoe[]>([]);
+  const [modalState, setModalState] = useState('');
   const [salesData, setSalesData] = useState(false);
 
   useEffect(() => {
@@ -164,6 +165,7 @@ const Sales: React.FC = () => {
                       const modalElement = document.getElementById(
                         "my_modal_1"
                       ) as HTMLDialogElement | null;
+                      setModalState(shoe.productQuantity);
                       modalElement?.showModal();
                     }}
                   >
@@ -183,7 +185,7 @@ const Sales: React.FC = () => {
                           className="input input-bordered "
                           onChange={(e) => {
                             if (
-                              Number(e.target.value) > Number(shoe.productQuantity) ||
+                              Number(e.target.value) > Number(modalState) ||
                               Number(e.target.value) < 1
                             ) {
                               setSalesData(true);
@@ -198,7 +200,7 @@ const Sales: React.FC = () => {
                             <p className="mt-5 text-red-500">
                               Your quantity is more than the available quantity
                               or less than 1. Available is{" "}
-                              {shoe.productQuantity}
+                              {modalState}
                             </p>
                           </>
                         )}

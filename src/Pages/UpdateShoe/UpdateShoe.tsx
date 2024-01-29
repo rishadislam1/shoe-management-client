@@ -88,12 +88,11 @@ const UpdateShoe = () => {
             <br />
             <input
               defaultValue={shoeData?.productPrice}
-              type="number"
+              type="text"
               name="price"
-              id="price"
               placeholder="enter product price"
               className="input input-bordered w-full"
-              required
+             
             />
           </div>
         </div>
