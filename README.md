@@ -4,6 +4,7 @@
 # Project Details
  ## Project Name: Shoe Inventory Management System
  ## live Url: https://65b7c17b1fff7a0d543da78a--singular-hotteok-1dfc48.netlify.app/
+ ## video URL: https://drive.google.com/file/d/1fHj-gRRofmmSPB3BHyF9JUDMH7Zrj6Rk/view?usp=sharing
  ## Technology: nodejs, expressjs, cors, mongoDB
 
 # How to setup the application.
