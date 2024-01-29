@@ -1,7 +1,9 @@
+# !!! IMPORTANT NOTE: please start the server before see the live link. Because where I upload the server sometimes it creates problems because of free users. Thanks in advance
+## Server Link: https://shoemanagement.onrender.com/
 
 # Project Details
  ## Project Name: Shoe Inventory Management System
- ## live Url: 
+ ## live Url: https://65b6d1102ddcf9ad78abc6de--storied-cannoli-c38d91.netlify.app/
  ## Technology: nodejs, expressjs, cors, mongoDB
 
 # How to setup the application.
@@ -19,6 +21,12 @@ Then your code will automatically run and after clicking the url you can see the
 
 ## Login page:
   On the application you first see a login page. If you are not registered with our service you can visit  to the signup page and signup to our system. After come back to login page you need to put the login details for login to your account.
+
+  #### Here if you want you can login my demo account.
+  ```
+  email: jac@gmail.com
+  password: 123456
+```
 
 ## Home Page
 
